@@ -12,6 +12,68 @@ public class Ticket {
 	private String source;
 	private int bookingId;
 	private String journeyDate;
+	private String journeyTime;
+	public String getJourneyTime() {
+		return journeyTime;
+	}
+	public void setJourneyTime(String journeyTime) {
+		this.journeyTime = journeyTime;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + bookingId;
+		result = prime * result + ((destination == null) ? 0 : destination.hashCode());
+		result = prime * result + flightId;
+		result = prime * result + ((journeyDate == null) ? 0 : journeyDate.hashCode());
+		result = prime * result + noOfSeats;
+		result = prime * result + passengerId;
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
+		result = prime * result + ticketId;
+		long temp;
+		temp = Double.doubleToLongBits(ticketPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ticket other = (Ticket) obj;
+		if (bookingId != other.bookingId)
+			return false;
+		if (destination == null) {
+			if (other.destination != null)
+				return false;
+		} else if (!destination.equals(other.destination))
+			return false;
+		if (flightId != other.flightId)
+			return false;
+		if (journeyDate == null) {
+			if (other.journeyDate != null)
+				return false;
+		} else if (!journeyDate.equals(other.journeyDate))
+			return false;
+		if (noOfSeats != other.noOfSeats)
+			return false;
+		if (passengerId != other.passengerId)
+			return false;
+		if (source == null) {
+			if (other.source != null)
+				return false;
+		} else if (!source.equals(other.source))
+			return false;
+		if (ticketId != other.ticketId)
+			return false;
+		if (Double.doubleToLongBits(ticketPrice) != Double.doubleToLongBits(other.ticketPrice))
+			return false;
+		return true;
+	}
 	public int getBookingId() {
 		return bookingId;
 	}

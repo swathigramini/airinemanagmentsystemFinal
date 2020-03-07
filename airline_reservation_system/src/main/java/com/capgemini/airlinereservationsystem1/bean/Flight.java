@@ -12,6 +12,58 @@ public class Flight {
 	private int totalNoOfseats;
 	private double ticketPrice;
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((destination == null) ? 0 : destination.hashCode());
+		result = prime * result + flightId;
+		result = prime * result + ((flightName == null) ? 0 : flightName.hashCode());
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(ticketPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + totalNoOfseats;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Flight other = (Flight) obj;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (destination == null) {
+			if (other.destination != null)
+				return false;
+		} else if (!destination.equals(other.destination))
+			return false;
+		if (flightId != other.flightId)
+			return false;
+		if (flightName == null) {
+			if (other.flightName != null)
+				return false;
+		} else if (!flightName.equals(other.flightName))
+			return false;
+		if (source == null) {
+			if (other.source != null)
+				return false;
+		} else if (!source.equals(other.source))
+			return false;
+		if (Double.doubleToLongBits(ticketPrice) != Double.doubleToLongBits(other.ticketPrice))
+			return false;
+		if (totalNoOfseats != other.totalNoOfseats)
+			return false;
+		return true;
+	}
 	public String getDate() {
 		return date;
 	}

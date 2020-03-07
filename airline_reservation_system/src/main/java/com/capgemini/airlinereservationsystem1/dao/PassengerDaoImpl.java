@@ -113,26 +113,26 @@ public class PassengerDaoImpl implements PassengerDao {
 		return ticket;
 	}
 
-	@Override
-	public boolean cancelTicket(int ticketId) {
+	public boolean TicketCancellation(int ticketId) {
 		try {
 			Iterator<Map.Entry<Integer, Ticket>> iterator = ticketData.entrySet().iterator();
 
 			while (iterator.hasNext()) {
 
 				Map.Entry<Integer, Ticket> entry = iterator.next();
+
 				if (ticketId == (entry.getValue().getTicketId())) {
 					iterator.remove();
 					return true;
 				}
-
 			}
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 		return false;
-	}
+	}// end of deleteFlight
 
 	@Override
 	public Flight searchFlight(int flightId) {
@@ -169,5 +169,24 @@ public class PassengerDaoImpl implements PassengerDao {
 
 		return null;
 	}// end of flight availability
+
+	@Override
+	public List<Ticket> viewTicketDetails() {
+		try {
+			List<Ticket> ticket = new LinkedList<Ticket>();
+			Iterator<Map.Entry<Integer, Ticket>> iterator = ticketData.entrySet().iterator();
+
+			while (iterator.hasNext()) {
+
+				Map.Entry<Integer, Ticket> entry = iterator.next();
+				ticket.add(entry.getValue());
+			}
+			return ticket;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

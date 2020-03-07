@@ -11,12 +11,12 @@ import com.capgemini.airlinereservationsystem1.bean.Passenger;
 import com.capgemini.airlinereservationsystem1.bean.Ticket;
 
 public class Repository {
-	public static HashMap< Integer,Admin> adminData = new HashMap<Integer, Admin>();
-	public static HashMap<Integer, Flight> flightData = new HashMap<Integer, Flight>();
-	public static HashMap<Integer, Passenger> passengerData = new HashMap<Integer, Passenger>();
-	public static HashMap<Integer, Manager> managerData = new HashMap<Integer, Manager>();
-	public static HashMap<Integer, Ticket> ticketData = new HashMap<Integer, Ticket>();
-	public static HashMap<Integer, Availability> availabilityData = new HashMap<Integer, Availability>();
+	public static final HashMap< Integer,Admin> adminData = new HashMap<Integer, Admin>();
+	public static final HashMap<Integer, Flight> flightData = new HashMap<Integer, Flight>();
+	public static final HashMap<Integer, Passenger> passengerData = new HashMap<Integer, Passenger>();
+	public static final HashMap<Integer, Manager> managerData = new HashMap<Integer, Manager>();
+	public static final HashMap<Integer, Ticket> ticketData = new HashMap<Integer, Ticket>();
+	public static final HashMap<Integer, Availability> availabilityData = new HashMap<Integer, Availability>();
 	
 
 	static{

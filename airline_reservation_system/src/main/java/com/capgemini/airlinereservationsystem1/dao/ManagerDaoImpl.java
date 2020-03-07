@@ -12,6 +12,7 @@ import com.capgemini.airlinereservationsystem1.bean.Flight;
 import com.capgemini.airlinereservationsystem1.bean.Manager;
 import com.capgemini.airlinereservationsystem1.bean.Passenger;
 import com.capgemini.airlinereservationsystem1.db.Repository;
+import com.capgemini.airlinereservationsystem1.exception.ManagerException;
 
 public class ManagerDaoImpl implements ManagerDao {
 	Repository repository = new Repository();
@@ -73,7 +74,6 @@ public class ManagerDaoImpl implements ManagerDao {
 	}// end of addFlight
 
 	public boolean updateFlightCheck(int flightId) {
-
 		try {
 			Iterator<Map.Entry<Integer, Flight>> iterator = flightData.entrySet().iterator();
 			while (iterator.hasNext()) {
@@ -83,7 +83,7 @@ public class ManagerDaoImpl implements ManagerDao {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+		    System.out.println(e.getMessage());
 		}
 		return false;
 	}// end of updateFlightCheck
@@ -97,10 +97,12 @@ public class ManagerDaoImpl implements ManagerDao {
 				Map.Entry<Integer, Flight> entry = iterator.next();
 				if (flight.getFlightId() == (entry.getValue().getFlightId())) {
 					entry.setValue(flight);
+				}else {
+					throw new ManagerException("Flight id does not Exist");
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ManagerException e) {
+			System.out.println(e.getMessage());
 		}
 		return;
 

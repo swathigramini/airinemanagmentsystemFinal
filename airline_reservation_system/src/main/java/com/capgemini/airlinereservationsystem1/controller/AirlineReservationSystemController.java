@@ -26,18 +26,19 @@ public class AirlineReservationSystemController {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws PassengerException {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("*****************************************");
-
+		System.out.println("**************************************");
+		System.out.println("Welcome To AirLine Managment Service");
+		System.out.println("**************************************");
+		
 		while (true) {
-			System.out.println("Welcome To AirLine Service");
-			System.out.println("----------------------------------");
-			System.out.println("1. Admin Login");
-			System.out.println("2. Manager Login");
-			System.out.println("3. Passenger Login");
-			System.out.println("Press 0 to exit");
-             int choice =AirlineReservationSystemController.numValidate (scanner.next());
+			System.out.println("Option 1 : Admin Login");
+			System.out.println("Option 2 : Manager Login");
+			System.out.println("Option 3 : Passenger Login");
+			System.out.println("Option 4 : Register Passenger");
+			
+            int choice =AirlineReservationSystemController.numValidate (scanner.next());
 			AdminService serviceAdmin = new AdminServiceImpl();
 			
 			if (choice == 1) {
@@ -64,11 +65,11 @@ public class AirlineReservationSystemController {
 					passenger = PassengerController.passengerLogin();
 				} catch (PassengerException e) {
 					System.out.println(e.getMessage());
-
 				}
 
-			} else{
-				System.out.println("Please enter correct choice");
+			} else if(choice == 4){
+				Passenger passenger = null;
+				passenger = PassengerController.registerPassenger();
 			}
 
 		}

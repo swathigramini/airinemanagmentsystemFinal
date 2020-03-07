@@ -1,0 +1,8 @@
+package com.capgemini.airlinereservationsystem1.dao;
+
+
+
+public class PassengerDaoImplTest extends TestCase {
+
+
+}

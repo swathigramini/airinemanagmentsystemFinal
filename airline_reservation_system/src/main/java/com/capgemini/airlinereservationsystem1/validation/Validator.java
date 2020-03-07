@@ -48,15 +48,15 @@ public Integer validateId(String id) {
 			return pat.matcher(password).matches();
 		}
 	}
-	public static boolean phoneValidation(String num) {
+	public static boolean phoneValidation(CharSequence contact) {
 
 		String phoneRegex = "^(\\+91[\\-\\s]?)?[0]?(91)?[789]\\d{9}$";
 
 		Pattern pattern = Pattern.compile(phoneRegex);
-		if (num == null) {
+		if (contact == null) {
 			return false;
 		}
-		return pattern.matcher(num).matches();
+		return pattern.matcher(contact).matches();
 	}
  public static boolean isName(String txt) {
 	 String regx = "[a-zA-Z]+\\.?";
@@ -74,7 +74,7 @@ public static boolean dateValidation(String d) {
 	try {
 		Date date = sdf.parse(d);
 		Date today = new Date();
-		return date.before(today);
+		return date.after(today);
 	}catch(Exception e){
 		return true;
 	}

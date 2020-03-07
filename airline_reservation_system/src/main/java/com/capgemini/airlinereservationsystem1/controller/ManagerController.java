@@ -12,6 +12,7 @@ import com.capgemini.airlinereservationsystem1.bean.Passenger;
 import com.capgemini.airlinereservationsystem1.exception.AddFlightException;
 import com.capgemini.airlinereservationsystem1.exception.AdminException;
 import com.capgemini.airlinereservationsystem1.exception.ManagerException;
+import com.capgemini.airlinereservationsystem1.exception.PassengerException;
 import com.capgemini.airlinereservationsystem1.service.ManagerService;
 import com.capgemini.airlinereservationsystem1.service.ManagerServiceImpl;
 import com.capgemini.airlinereservationsystem1.service.PassengerService;
@@ -27,21 +28,22 @@ public class ManagerController {
 	static Passenger passenger = new Passenger();
 	static Manager manager = new Manager();
 
-	public static Manager managerLogin() throws ManagerException {
+	public static Manager managerLogin() throws ManagerException, PassengerException {
 		int managerId = 0;
 		try {
 
 			while (true) {
-				System.out.println("Enter manager id");
+				System.out.println("*************************");
+				System.out.println("Enter Manager id :");
 				Integer sId = validator.validateId(scanner.next());
 				if (sId != null) {
 					managerId = sId;
 					break;
 				} else {
-					System.out.println("Id should be Integer");
+					System.out.println("Id should be Integer!!!!");
 				}
 			}
-			System.out.println("Enter manager password");
+			System.out.println("Enter Manager password :");
 			String password = null;
 			char c1 = 'y';
 			while (c1 == 'y') {
@@ -49,17 +51,17 @@ public class ManagerController {
 				if (Validator.isPassword(password)) {
 					c1 = 'n';
 				} else {
-					System.err.println("enter correct password pattern");
+					System.err.println("It should Contain atleast 6 characters(1Caps,1specialsCharacter and 1 number are mandatory)\"");
 				}
 			}
 			manager.setManagerPassword(password);
 
 			boolean managerLogin = serviceManager.managerLogin(managerId, password);
 			if (managerLogin) {
-				System.out.println("Login successfully");
+				System.out.println(" Manager Logged in successfully");
 				getManagerFunction();
 			} else {
-				throw new ManagerException("Invalid username and password for admin");
+				throw new ManagerException("Invalid username and password for Admin");
 			}
 		} catch (ManagerException e) {
 			System.out.println(e.getMessage());
@@ -67,15 +69,16 @@ public class ManagerController {
 		return null;
 	}// end of ManagerLogin()
 
-	private static void getManagerFunction() {
-
+	private static void getManagerFunction() throws PassengerException {
+        
+		System.out.println("**********************");
 		System.out.println("select a option");
-		System.out.println("1. Add flight");
-		System.out.println("2. Update flight");
-		System.out.println("3. Display all flight details");
-		System.out.println("4. Cancel flight");
-		System.out.println("5. Display all passenger details");
-		System.out.println("6. Logout");
+		System.out.println("Enter Option 1: Add flight");
+		System.out.println("Enter Option 2: Update flight");
+		System.out.println("Enter Option 3: Display all flight details");
+		System.out.println("Enter Option 4: Cancel flight");
+		System.out.println("Enter Option 5: Display all passenger details");
+		System.out.println("Enter Option 6: Logout");
 		int managerChoice = AirlineReservationSystemController.numValidate(scanner.next());
 
 		switch (managerChoice) {
@@ -113,76 +116,70 @@ public class ManagerController {
 		}// end of switch case
 	}
 
-	static void addFlight() {
+	static void addFlight() throws PassengerException {
 		int flightId = 0;
 		try {
 
 			while (true) {
 
-				System.out.println("Enter flight id");
+				System.out.println("Enter Flight id :");
 				Integer sId = validator.validateId(scanner.next());
 				if (sId != null) {
 					flightId = sId;
 					flight.setFlightId(flightId);
 					break;
 				} else {
-					System.out.println("Id should be Integer");
+					System.out.println("Id should be Integer...");
 				}
 			}
 
 			boolean addFlightCheck = serviceManager.addFlightCheck(flightId);
 			if (addFlightCheck) {
-				System.out.println("this flight id is used by some other flight give another id");
+				System.out.println("this Flight id is used by some other Flight give another id");
 
 				while (true) {
-					System.out.println("Enter another flight id");
+					System.out.println("Enter another flight id :");
 					Integer sId = validator.validateId(scanner.next());
 					if (sId != null) {
 						flightId = sId;
 						flight.setFlightId(flightId);
 						break;
 					} else {
-						System.out.println("Id should be Integer");
+						System.out.println("Id should be Integer..");
 					}
 				}
 
 			}
 
-			System.out.println("Enter flight name");
+			System.out.println("Enter flight name :");
 			flight.setFlightName(scanner.next());
 
-			System.out.println("Enter destination");
+			System.out.println("Enter destination :");
 			flight.setDestination(scanner.next());
 
-			System.out.println("Enter source");
+			System.out.println("Enter source :");
 			flight.setSource(scanner.next());
-			System.out.println("Enter price");
+			
+			System.out.println("Enter price :");
 			flight.setTicketPrice(scanner.nextDouble());
-
-			System.out.println("Enter total number of seats");
+			System.out.println("Enter total number of seats :");
 			flight.setTotalNoOfseats(scanner.nextInt());
 
-			// flight.setFlightId(flightId);
-			/*
-			 * flight.setFlightName(flightName); flight.setSource(source);
-			 * flight.setDestination(destination); flight.setTicketPrice(ticketPrice);
-			 * flight.setTotalNoOfseats(totalNoOfSeats);
-			 */
 
 			boolean addFlight = serviceManager.addFlight(flight);
 			if (addFlight) {
-				System.out.println(" passenger record inserted");
-				System.out.println("press 0 to go back");
+				System.out.println(" passenger record inserted !!");
+				System.out.println("Enter Option 6 : *To go back*");
 				int option = scanner.nextInt();
-				if (option == 0) {
+				if (option == 6) {
 					getManagerFunction();
 				}
 			} else {
-				throw new AddFlightException("Record is already present");
+				throw new AddFlightException("Record is already present!!!");
 			}
 
 		} catch (AddFlightException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 	}// end of addFlight
@@ -193,45 +190,45 @@ public class ManagerController {
 
 			int flightId = 0;
 			while (true) {
-				System.out.println("Enter flight id that you want to update");
+				System.out.println("Enter flight id that you want to update :");
 				Integer sId = validator.validateId(scanner.next());
 				if (sId != null) {
 					flightId = sId;
 					break;
 				} else {
-					System.out.println("Id should be Integer");
+					System.out.println("Id should be Integer....");
 				}
 			}
 
 			boolean updateFlightCheck = serviceManager.updateFlightCheck(flightId);
 			if (updateFlightCheck) {
 
-				System.out.println("Enter flight name");
+				System.out.println("Enter flight name :");
 				String flightName = scanner.next();
 				flight.setFlightName(flightName);
 
-				System.out.println("Enter source");
+				System.out.println("Enter source :");
 				String source = scanner.next();
 				flight.setSource(source);
 
-				System.out.println("Enter destination");
+				System.out.println("Enter destination :");
 				String destination = scanner.next();
 				flight.setDestination(destination);
 
-				System.out.println("Enter price");
+				System.out.println("Enter price :");
 				double ticketPrice = scanner.nextDouble();
 				flight.setTicketPrice(ticketPrice);
 
-				System.out.println("Enter total number of seats");
+				System.out.println("Enter total number of seats :");
 				int totalNoOfSeats = scanner.nextInt();
 				flight.setTotalNoOfseats(totalNoOfSeats);
 
 				serviceManager.updateFlight(flight);
 
-				System.out.println("record updated");
-				System.out.println("press 0 to go back");
+				System.out.println("Flight details got updated!!!");
+				System.out.println("Enter Option 6 : *To go back*");
 				int option = scanner.nextInt();
-				if (option == 0) {
+				if (option == 6) {
 					getManagerFunction();
 				}
 
@@ -240,11 +237,11 @@ public class ManagerController {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}// end of updateFlight
 
-	static void viewFlight() {
+	static void viewFlight() throws PassengerException {
 		List<Flight> flightData = new LinkedList<>();
 		flightData = serviceManager.viewFlight();
 		if (flightData == null) {
@@ -260,15 +257,15 @@ public class ManagerController {
 				System.out.println("Ticket Price= " + flight.getTicketPrice());
 				System.out.println("----------------------------------------------------");
 			}
-			System.out.println("press 0 to go back");
+			System.out.println("Enter Option 6 : *To go back*");
 			int option = scanner.nextInt();
-			if (option == 0) {
+			if (option == 6) {
 				getManagerFunction();
 			}
 		}
 	}// end of view flight
 
-     public static void cancelFlight() {
+     public static void cancelFlight() throws PassengerException {
 		try {
 			int flightId = 0;
 			while (true) {
@@ -284,9 +281,9 @@ public class ManagerController {
 			boolean flightCancel = serviceManager.FlightCancellation(flightId);
 			if (flightCancel) {
 				System.out.println("Flight Cancelled SuccessFully!!!!");
-				System.out.println("press 0 to go back");
+				System.out.println("Enter Option 6 : *To go back*");
 				int option = scanner.nextInt();
-				if (option == 0) {
+				if (option == 6) {
 					getManagerFunction();
 				}
 
@@ -295,12 +292,12 @@ public class ManagerController {
 			}
 
 		} catch (ManagerException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 	}// end of cancelFlight
 
-	public static List<Passenger> viewPassenger() {
+	public static List<Passenger> viewPassenger() throws PassengerException {
 		List<Passenger> passengerData = new LinkedList<>();
 		passengerData = serviceManager.viewPassenger();
 		if (passengerData == null) {
@@ -312,9 +309,9 @@ public class ManagerController {
 				System.out.println("passenger contact =" + passenger.getpassengerContact());
 				System.out.println("------------------------------------------------");
 			}
-			System.out.println("press 0 to go back");
+			System.out.println("Enter Option 6 : *To go back*");
 			int option = scanner.nextInt();
-			if (option == 0) {
+			if (option == 6) {
 				getManagerFunction();
 			}
 		}

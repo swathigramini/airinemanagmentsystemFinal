@@ -14,7 +14,7 @@ public interface PassengerService {
 
 	Ticket bookTicket(Ticket ticket);
 
-	boolean cancelTicket(int ticketId);
+	public boolean TicketCancellation(int ticketId);
 
 	Passenger passengerLogin(int passengerId, String passengerPassword);
 	
@@ -24,5 +24,7 @@ public interface PassengerService {
 	
 	public Flight searchFlight(int flightId);
 		
-		Flight flightAvailable(int flightId);
+	Flight flightAvailable(int flightId);
+	
+	List<Ticket> viewTicketDetails();
 }

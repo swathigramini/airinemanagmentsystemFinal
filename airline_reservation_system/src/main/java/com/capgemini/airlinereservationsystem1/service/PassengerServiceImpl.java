@@ -24,10 +24,6 @@ public class PassengerServiceImpl implements PassengerService {
 		return passengerDao.bookTicket(ticket);
 	}
 
-	@Override
-	public boolean cancelTicket(int ticketId) {
-		return passengerDao.cancelTicket(ticketId);
-	}
 
 	@Override
 	public Passenger passengerLogin(int passengerId, String passengerPassword) {
@@ -54,4 +50,15 @@ public class PassengerServiceImpl implements PassengerService {
 		return passengerDao.flightAvailable(flightId);
 	}
 
+	@Override
+	public boolean TicketCancellation(int ticketId) {
+		return passengerDao.TicketCancellation(ticketId);
+	}
+
+	@Override
+	public List<Ticket> viewTicketDetails() {
+		return passengerDao.viewTicketDetails();
+	}
+
+	
 }

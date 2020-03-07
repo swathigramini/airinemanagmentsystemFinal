@@ -7,6 +7,7 @@ import java.util.Scanner;
 import com.capgemini.airlinereservationsystem1.bean.Admin;
 import com.capgemini.airlinereservationsystem1.bean.Manager;
 import com.capgemini.airlinereservationsystem1.exception.AdminException;
+import com.capgemini.airlinereservationsystem1.exception.PassengerException;
 import com.capgemini.airlinereservationsystem1.service.AdminService;
 import com.capgemini.airlinereservationsystem1.service.AdminServiceImpl;
 import com.capgemini.airlinereservationsystem1.service.ManagerService;
@@ -21,20 +22,21 @@ public class AdminController {
 	static Manager manager = new Manager();
 	static Admin admin = new Admin();
 
-	public static Admin adminLogin() throws AdminException {
+	public static Admin adminLogin() throws AdminException, PassengerException {
 		int adminId = 0;
 		try {
-			System.out.println("Enter admin id");
+			System.out.println("*****************************");
+			System.out.println("Enter Admin Id :");
 			while (true) {
 				Integer sId = validator.validateId(scanner.next());
 				if (sId != null) {
 					adminId = sId;
 					break;
 				} else {
-					System.out.println("Id should be Integer");
+					System.out.println("Id should be an Integer");
 				}
 			}
-			System.out.println("Enter admin password");
+			System.out.println("Enter Admin Password :");
 			String password = null;
 			char c1 = 'y';
 			while (c1 == 'y') {
@@ -42,17 +44,17 @@ public class AdminController {
 				if (Validator.isPassword(password)) {
 					c1 = 'n';
 				} else {
-					System.err.println("enter correct password pattern");
+					System.err.println("Enter Correct Password Pattern");
+					System.out.println("It should Contain atleast 6 characters(1Caps,1specialsCharacter and 1 number are mandatory)");
 				}
 			}
-
 			admin.setAdminPassword(password);
 			boolean adminLogin1 = serviceAdmin.adminLogin(adminId, password);
 			if (adminLogin1) {
-				System.out.println("Login successfully");
+				System.out.println("Admin Logged In successfully!!!");
 				getAdminFunction();
 			} else {
-				throw new AdminException("Invalid username and password for admin");
+				throw new AdminException("Invalid Username and Password for Admin!!!");
 			}
 		} catch (AdminException e) {
 			System.out.println(e.getMessage());
@@ -60,14 +62,16 @@ public class AdminController {
 		return null;
 	}// end of adminLogin()
 
-	private static void getAdminFunction() {
-
-		System.out.println("select a option");
-		System.out.println("1. Add manager");
-		System.out.println("2. Update manager");
-		System.out.println("3. Display all manager details");
-		System.out.println("4. Delete manager");
-		System.out.println("5. Logout");
+	private static void getAdminFunction() throws PassengerException {
+		System.out.println("********************************");
+        System.out.println("Welcome to the Admin Page");
+        System.out.println("********************************");
+		System.out.println("Select a Option");
+		System.out.println("Enter Option 1 : Add manager");
+		System.out.println("Enter Option 2 : Update manager");
+		System.out.println("Enter Option 3 : Display all manager details");
+		System.out.println("Enter Option 4 : Delete manager");
+		System.out.println("Enter Option 5 : Logout");
 		int adminChoice = AirlineReservationSystemController.numValidate(scanner.next());
 
 		switch (adminChoice) {
@@ -76,7 +80,7 @@ public class AdminController {
 			try {
 				addManager();
 			} catch (AdminException e) {
-				System.out.println("admin already exists");
+				System.out.println("admin already exists!!!!");
 			}
 			break;
 
@@ -97,45 +101,46 @@ public class AdminController {
 			break;
 
 		default:
-			System.out.println("Invalid choice");
+			System.out.println("Invalid choice.........");
 			break;
 		}// end of switch case
 	}
 
-	public static void addManager() throws AdminException {
+	public static void addManager() throws AdminException, PassengerException {
 
 		try {
 			int managerId = 0;
 			while (true) {
-				System.out.println("Enter the manager id");
+				System.out.println("Enter the Manager Id :");
 				Integer sId = validator.validateId(scanner.next());
 				if (sId != null) {
 					managerId = sId;
 					manager.setManagerId(managerId);
 					break;
 				} else {
-					System.out.println("Id should be only an Integer");
+					System.out.println("Manager Id should be only an Integer.....");
 				}
 			}
 
 			boolean addFlighCheck = serviceAdmin.addFlightCheck(managerId);
 			if (addFlighCheck) {
-				System.out.println("this manager id is used by someother flight give another one");
+				System.out.println("This Manager id is accessing some other Flight!!!");
+				System.out.println("Please Enter the different Manager Id :");
 				int managerId1 = 0;
 				while (true) {
-					System.out.println("Enter another manager id");
+					System.out.println("Enter another Manager id :");
 					Integer sId = validator.validateId(scanner.next());
 					if (sId != null) {
 						managerId1 = sId;
 						manager.setManagerId(managerId1);
 						break;
 					} else {
-						System.out.println("Id should be only an Integer");
+						System.out.println("Id should be only an Integer...");
 					}
 				}
 			}
 
-			System.out.println("Enter manager name");
+			System.out.println("Enter Manager Name :");
 			String name = null;
 			char ch1 = 'y';
 			while (ch1 == 'y') {
@@ -143,12 +148,12 @@ public class AdminController {
 				if (Validator.isName(name)) {
 					ch1 = 'n';
 				} else {
-					System.err.println("invalid credentials");
+					System.err.println("invalid credentials!!!");
 				}
 			}
 			manager.setManagerName(name);
 
-			System.out.println("Enter manager password");
+			System.out.println("Enter Manager Password :");
 			String password = null;
 			char c1 = 'y';
 			while (c1 == 'y') {
@@ -156,36 +161,46 @@ public class AdminController {
 				if (Validator.isPassword(password)) {
 					c1 = 'n';
 				} else {
-					System.err.println("enter correct password pattern");
+					System.err.println("It should Contain atleast 6 characters(1Caps,1specialsCharacter and 1 number are mandatory)\"");
 				}
 			}
 			manager.setManagerPassword(password);
-			System.out.println("Enter manager emailId");
+			System.out.println("Enter Manager EmailId :");
 			String email = null;
 			char ch = 'y';
 			while (ch == 'y') {
 				email = scanner.next();
 				if (Validator.isEmail(email)) {
 					ch = 'n';
+					
 				} else {
-					System.err.println("enter correct email pattern");
+					System.err.println("Enter correct Email Pattern!!!!");
 				}
 			}
 			manager.setManagerEmail(email);
 
-			System.out.println("Enter manager contact number");
-			manager.setManagerContact(scanner.nextLong());
+			System.out.println("Enter Manager contact Number :");
+			String contact = null;
+			char c = 'y';
+			while (c == 'y') {
+				contact = scanner.next();
+				if (Validator.phoneValidation(contact)) {
+					c = 'n';
+				} else {
+					System.err.println("Enter valid contact number!!!!");
+				}
+			}
 
 			boolean manager2 = serviceAdmin.addManager(manager);
 			if (manager2) {
-				System.out.println("record inserted");
-				System.out.println("press 0 to go back");
+				System.out.println("Manager Record Inserted!!");
+				System.out.println("Enter Option 5 : *To go back*");
 				int option = scanner.nextInt();
-				if (option == 0) {
+				if (option == 5) {
 					getAdminFunction();
 				}
 			} else {
-				throw new AdminException("Record is already present");
+				throw new AdminException(" Manager Record is already present....");
 			}
 
 		} catch (AdminException e) {
@@ -193,31 +208,31 @@ public class AdminController {
 		}
 	}// end of add manager()
 
-	public static void deleteManager() {
+	public static void deleteManager() throws PassengerException {
 		try {
 
 			int managerIdDelete = 0;
 			while (true) {
-				System.out.println("Enter manager id you want to delete");
+				System.out.println("Enter Manager id you want to delete :");
 				Integer sId = validator.validateId(scanner.next());
 				if (sId != null) {
 					managerIdDelete = sId;
 					break;
 				} else {
-					System.out.println("Id should be only an Integer");
+					System.out.println("Id should be only an Integer!!!");
 				}
 			}
 			boolean deleteManager = serviceAdmin.deleteManager(managerIdDelete);
 			if (deleteManager) {
-				System.out.println("record deleted");
-				System.out.println("press 0 to go back");
+				System.out.println("Manager record deleted!!!");
+				System.out.println("Enter Option 5 : *To go back*");
 				int option = scanner.nextInt();
-				if (option == 0) {
+				if (option == 5) {
 					getAdminFunction();
 				}
 
 			} else {
-				throw new AdminException("Record is not present");
+				throw new AdminException("Record is not present!!!");
 			}
 
 		} catch (AdminException e) {
@@ -226,11 +241,11 @@ public class AdminController {
 
 	}// end of delete manager
 
-	public static void updateManager() {
+	public static void updateManager() throws PassengerException {
 		try {
 			int managerId = 0;
 			while (true) {
-				System.out.println("Enter the manager id");
+				System.out.println("Enter the manager id :");
 				Integer sId = validator.validateId(scanner.next());
 				if (sId != null) {
 					managerId = sId;
@@ -242,7 +257,7 @@ public class AdminController {
 			}
 			boolean addFlighCheck = serviceAdmin.updateFlightCheck(managerId);
 			if (addFlighCheck) {
-				System.out.println("Enter manager name");
+				System.out.println("Enter manager name :");
 				String name = null;
 				char ch1 = 'y';
 				while (ch1 == 'y') {
@@ -254,7 +269,7 @@ public class AdminController {
 					}
 				}
 				manager.setManagerName(name);
-				System.out.println("Enter manager password");
+				System.out.println("Enter manager password :");
 				String password = null;
 				char c1 = 'y';
 				while (c1 == 'y') {
@@ -262,11 +277,11 @@ public class AdminController {
 					if (Validator.isPassword(password)) {
 						c1 = 'n';
 					} else {
-						System.err.println("enter correct password pattern");
+						System.err.println("It should Contain atleast 6 characters(1Caps,1specialsCharacter and 1 number are mandatory)\"");
 					}
 				}
 				manager.setManagerPassword(password);
-				System.out.println("Enter manager emailId");
+				System.out.println("Enter manager emailId :");
 				String email = null;
 				char ch = 'y';
 				while (ch == 'y') {
@@ -279,15 +294,15 @@ public class AdminController {
 				}
 				manager.setManagerEmail(email);
 
-				System.out.println("Enter manager contact number");
+				System.out.println("Enter manager contact number :");
 				manager.setManagerContact(scanner.nextLong());
 
 				boolean addManager = serviceAdmin.addManager(manager);
 				if (addManager) {
 					System.out.println("record updated");
-					System.out.println("press 0 to go back");
+					System.out.println("Enter Option 5 : *To go back*");
 					int option = scanner.nextInt();
-					if (option == 0) {
+					if (option == 5) {
 						getAdminFunction();
 					}
 				} else {
@@ -301,7 +316,7 @@ public class AdminController {
 
 	}// end of update manager()
 
-	public static void viewManager() {
+	public static void viewManager() throws PassengerException {
 		List<Manager> managerData = new LinkedList<>();
 		managerData = serviceAdmin.viewManager();
 		if (managerData == null) {
@@ -314,9 +329,9 @@ public class AdminController {
 				System.out.println("manager email =" + manager.getManagerEmail());
 				System.out.println("-----------------------------------------------");
 			}
-			System.out.println("press 0 to exit");
+			System.out.println("Enter Option 5 : *To go back*");
 			int option = scanner.nextInt();
-			if (option == 0) {
+			if (option == 5) {
 				getAdminFunction();
 			}
 		}

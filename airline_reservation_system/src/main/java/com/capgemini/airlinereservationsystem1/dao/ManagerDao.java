@@ -24,5 +24,5 @@ public interface ManagerDao {
 	 
 	public boolean FlightCancellation(int flightIdCancel);
 
-
+    
 }

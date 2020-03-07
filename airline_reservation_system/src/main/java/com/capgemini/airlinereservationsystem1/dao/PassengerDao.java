@@ -15,7 +15,7 @@ public interface PassengerDao {
 
 	Ticket bookTicket(Ticket ticket);
 
-	boolean cancelTicket(int ticketId);
+	public boolean TicketCancellation(int ticketId);
 
 	Passenger passengerLogin(int passengerId, String passengerPassword);
 
@@ -24,5 +24,6 @@ public interface PassengerDao {
 	boolean registerPassenger(Passenger passenger);
 	
 	Flight flightAvailable(int flightId);
-		
+
+	List<Ticket> viewTicketDetails();
 }
